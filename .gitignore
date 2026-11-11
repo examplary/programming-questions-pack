@@ -1,3 +1,5 @@
 node_modules
+.bundled
+.yarn
 .DS_Store
 *.log
