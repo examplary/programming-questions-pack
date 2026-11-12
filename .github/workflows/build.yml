@@ -15,29 +15,31 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
+      # Yarn 4, from the packageManager field in package.json
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: yarn
 
-      - name: Release
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Validate
+        run: yarn validate
+
+      - name: Test
+        run: yarn test
+
+      - name: Publish to staging
+        run: yarn publish --host https://api-staging.examplary.ai
         env:
           EXAMPLARY_API_KEY: ${{ secrets.EXAMPLARY_API_KEY }}
-        run: |
-          # Install dependencies
-          yarn
 
-          # Loop through each subfolder in the current directory
-          for dir in */; do
-            # Skip if the directory does not contain a question-type.json file
-            if [ ! -f "$dir/question-type.json" ]; then
-              continue
-            fi
-
-            # Bundle and upload to Examplary
-            cd $dir
-            npx @examplary/cli@latest upload --host https://api-staging.examplary.ai
-            npx @examplary/cli@latest upload --host https://api.examplary.ai
-            cd ..
-          done
+      - name: Publish to production
+        run: yarn publish --host https://api.examplary.ai
+        env:
+          EXAMPLARY_API_KEY: ${{ secrets.EXAMPLARY_API_KEY }}
