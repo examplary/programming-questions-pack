@@ -34,12 +34,7 @@ jobs:
       - name: Test
         run: yarn test
 
-      - name: Publish to staging
-        run: yarn publish --host https://api-staging.examplary.ai
-        env:
-          EXAMPLARY_API_KEY: ${{ secrets.EXAMPLARY_API_KEY }}
-
       - name: Publish to production
-        run: yarn publish --host https://api.examplary.ai
+        run: yarn publish
         env:
           EXAMPLARY_API_KEY: ${{ secrets.EXAMPLARY_API_KEY }}
