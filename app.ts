@@ -5,8 +5,8 @@ import JavaScript from "./javascript/definition";
 const app = defineApp({
   id: "examplary.apps.programming-questions",
   name: {
-    en: "Programming questions",
-    nl: "Programmeervragen",
+    en: "Questions pack: programming",
+    nl: "Vragenpakket: programmeren",
   },
   description: {
     en: "Question types where students write code that is checked against automated tests.",
